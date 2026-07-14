@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <!-- Sur mobile : on interdit le zoom pour que le jeu reste stable sous les doigts -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#66b7ff">
+  <title>Rabbit Man — Panpan le policier lapin</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+</head>
+<body>
+  <!-- Le canvas : c'est la "feuille de dessin" où tout le jeu est dessiné, image par image -->
+  <canvas id="jeu" width="480" height="270"></canvas>
+
+  <!-- Les boutons tactiles pour jouer sur téléphone (cachés sur ordinateur) -->
+  <div id="controles">
+    <div class="groupe gauche">
+      <button class="btn" id="btn-gauche" aria-label="Reculer">◀</button>
+      <button class="btn" id="btn-droite" aria-label="Avancer">▶</button>
+    </div>
+    <div class="groupe droite">
+      <button class="btn" id="btn-frapper" aria-label="Frapper">💥</button>
+      <button class="btn" id="btn-sauter" aria-label="Sauter">⬆</button>
+    </div>
+  </div>
+
+  <!-- Bouton pour couper / remettre le son -->
+  <button id="btn-mute" aria-label="Couper le son">🔊</button>
+
+  <!-- Message affiché si le téléphone est tenu en portrait -->
+  <div id="portrait">
+    <div class="rotation">🔄</div>
+    <p>Tourne ton téléphone&nbsp;!</p>
+  </div>
+
+  <!-- Le point d'entrée du code du jeu -->
+  <script type="module" src="js/game.js"></script>
+</body>
+</html>

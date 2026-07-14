@@ -1,0 +1,18 @@
+{
+  "name": "Rabbit Man — Panpan le policier lapin",
+  "short_name": "Rabbit Man",
+  "description": "Aide Panpan, le policier lapin, à rattraper les 4 loups évadés !",
+  "start_url": ".",
+  "display": "fullscreen",
+  "orientation": "landscape",
+  "background_color": "#66b7ff",
+  "theme_color": "#66b7ff",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

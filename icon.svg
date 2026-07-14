@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" shape-rendering="crispEdges">
+  <!-- Icône pixel art : la tête de Panpan (lapin blanc + casquette bleue) -->
+  <rect width="16" height="16" fill="#66b7ff"/>
+  <!-- Oreilles -->
+  <rect x="4" y="0" width="2" height="5" fill="#ffffff"/>
+  <rect x="10" y="0" width="2" height="5" fill="#ffffff"/>
+  <rect x="4.7" y="1" width="0.6" height="3" fill="#ff9eb4"/>
+  <rect x="10.7" y="1" width="0.6" height="3" fill="#ff9eb4"/>
+  <!-- Casquette -->
+  <rect x="3" y="5" width="10" height="2" fill="#16327d"/>
+  <rect x="2" y="7" width="12" height="1" fill="#2050c8"/>
+  <!-- Tête -->
+  <rect x="3" y="8" width="10" height="7" fill="#ffffff"/>
+  <!-- Yeux -->
+  <rect x="5" y="9" width="2" height="2" fill="#1a1a1a"/>
+  <rect x="9" y="9" width="2" height="2" fill="#1a1a1a"/>
+  <!-- Museau -->
+  <rect x="7" y="11" width="2" height="1" fill="#ff9eb4"/>
+  <rect x="7" y="12" width="2" height="1" fill="#c8c8d0"/>
+</svg>
