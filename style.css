@@ -131,3 +131,6 @@ html, body {
 @media (orientation: portrait) and (hover: none) {
   #portrait { display: flex; }
 }
+@media (orientation: portrait) and (pointer: coarse) {
+  #portrait { display: flex; }
+}

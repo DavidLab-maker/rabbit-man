@@ -492,9 +492,9 @@ function dessinerTitre() {
   texte('RABBIT MAN', LARGEUR / 2, 70, 34, '#ffd530');
   texte('Panpan le policier lapin', LARGEUR / 2, 95, 12, '#ffffff');
 
-  // Panpan en grand, qui gigote
+  // Panpan en grand, qui gigote (à gauche du bouton JOUER)
   const frame = SPRITES.panpan.idle[Math.floor(tempsEtat * 2) % 2];
-  ctx.drawImage(frame, LARGEUR / 2 - 32, SOL_Y - 96, 64, 96);
+  ctx.drawImage(frame, LARGEUR / 2 - 140, SOL_Y - 96, 64, 96);
 
   // Le bouton JOUER (qui clignote doucement)
   const clignote = Math.sin(tempsEtat * 4) > -0.5;
@@ -978,8 +978,9 @@ function boucle(maintenant) {
   // dt = le temps écoulé depuis la dernière image (en secondes)
   let dt = (maintenant - dernierTemps) / 1000;
   dernierTemps = maintenant;
-  // Si l'onglet a été mis en pause, on évite un dt géant
+  // Si l'onglet a été mis en pause, on évite un dt géant (ou négatif)
   if (dt > 0.05) dt = 0.05;
+  if (dt < 0) dt = 0;
 
   mettreAJour(dt);
   dessiner();
@@ -989,3 +990,14 @@ function boucle(maintenant) {
 }
 
 requestAnimationFrame(boucle);
+
+// Pour les tests automatiques : permet d'avancer le jeu image par
+// image même quand l'onglet est caché (ne gêne pas le jeu normal).
+window.__tick = boucle;
+window.__etat = () => ({
+  etat, tempsEtat, vies,
+  joueur: joueur ? { x: joueur.x, y: joueur.y, mode: joueur.mode, auSol: joueur.auSol } : null,
+  cameraX,
+  ennemis: ennemis.map(e => ({ type: e.type, x: Math.round(e.x), vivant: e.vivant })),
+});
+window.__va = (x) => { if (joueur) { joueur.x = x; joueur.y = 150; joueur.vy = 0; } };
