@@ -3,6 +3,10 @@
 Un jeu de plateforme pour mobile, créé d'après le dessin original de Panpan
 (voir `reference-panpan.jpg`).
 
+> 🎨 **Directrice artistique : Emma** · 💻 **Développeur : Claude**
+>
+> 🕹️ Jouer en ligne : https://rabbit-man.vercel.app
+
 Panpan est un policier lapin. Quatre loups sont enfermés dans les cellules
 de la prison… mais ils s'échappent ! Quand la sirène retentit dans la salle
 de surveillance, touche l'écran qui clignote et pars à la poursuite du loup

@@ -56,7 +56,7 @@ const VITESSE_ENNEMI = { chien: 30, renard: 55, belette: 85 };
 /* ---------- L'état général du jeu ---------- */
 
 // Dans quel "écran" on se trouve
-let etat = 'titre'; // 'titre' | 'surveillance' | 'jeu' | 'gameover' | 'final'
+let etat = 'titre'; // 'titre' | 'aide' | 'surveillance' | 'jeu' | 'gameover' | 'final'
 let tempsEtat = 0;  // depuis combien de temps on est dans cet écran
 
 // Variables du niveau en cours
@@ -461,6 +461,7 @@ function mettreAJourConfettis(dt) {
 function dessiner() {
   ctx.clearRect(0, 0, LARGEUR, HAUTEUR);
   if (etat === 'titre') dessinerTitre();
+  else if (etat === 'aide') dessinerAide();
   else if (etat === 'surveillance') dessinerSurveillance();
   else if (etat === 'jeu') dessinerJeu();
   else if (etat === 'gameover') dessinerGameOver();
@@ -492,24 +493,70 @@ function dessinerTitre() {
   texte('RABBIT MAN', LARGEUR / 2, 70, 34, '#ffd530');
   texte('Panpan le policier lapin', LARGEUR / 2, 95, 12, '#ffffff');
 
-  // Panpan en grand, qui gigote (à gauche du bouton JOUER)
+  // Panpan en grand, qui gigote (à gauche des boutons)
   const frame = SPRITES.panpan.idle[Math.floor(tempsEtat * 2) % 2];
-  ctx.drawImage(frame, LARGEUR / 2 - 140, SOL_Y - 96, 64, 96);
+  ctx.drawImage(frame, 48, SOL_Y - 96, 64, 96);
 
   // Le bouton JOUER (qui clignote doucement)
   const clignote = Math.sin(tempsEtat * 4) > -0.5;
   if (clignote) {
     ctx.fillStyle = 'rgba(22, 50, 125, 0.85)';
-    ctx.fillRect(LARGEUR / 2 - 60, 190, 120, 32);
+    ctx.fillRect(LARGEUR / 2 - 70, 160, 140, 36);
     ctx.strokeStyle = '#ffd530';
     ctx.lineWidth = 2;
-    ctx.strokeRect(LARGEUR / 2 - 60, 190, 120, 32);
-    texte('▶ JOUER', LARGEUR / 2, 212, 16, '#ffd530');
+    ctx.strokeRect(LARGEUR / 2 - 70, 160, 140, 36);
+    texte('▶ JOUER', LARGEUR / 2, 184, 16, '#ffd530');
   }
 
-  // Si le jeu a déjà été fini, on propose de tout recommencer
+  // Le bouton des instructions
+  ctx.fillStyle = 'rgba(22, 50, 125, 0.85)';
+  ctx.fillRect(LARGEUR / 2 - 70, 204, 140, 26);
+  ctx.strokeStyle = '#ffffff';
+  ctx.lineWidth = 1;
+  ctx.strokeRect(LARGEUR / 2 - 70, 204, 140, 26);
+  texte('? Comment jouer ?', LARGEUR / 2, 221, 10, '#ffffff');
+
+  // Les crédits : qui a fabriqué ce jeu !
+  texte('Directrice artistique : Emma  ·  Développeur : Claude',
+    LARGEUR / 2, 250, 8, '#ffffff');
+
+  // Si le jeu a déjà été commencé, on propose de tout recommencer
   if (save.faits.some(f => f)) {
-    texte('(appui long ici : tout recommencer)', LARGEUR / 2, 250, 7, 'rgba(255,255,255,0.7)');
+    texte('(appui long ici : tout recommencer)', LARGEUR / 2, 263, 7, 'rgba(255,255,255,0.8)');
+  }
+}
+
+/* ---------- L'écran "Comment jouer ?" ---------- */
+
+function dessinerAide() {
+  dessinerCiel();
+  // Le grand panneau bleu
+  ctx.fillStyle = 'rgba(16, 26, 60, 0.92)';
+  ctx.fillRect(20, 10, LARGEUR - 40, HAUTEUR - 20);
+  ctx.strokeStyle = '#ffd530';
+  ctx.lineWidth = 2;
+  ctx.strokeRect(20, 10, LARGEUR - 40, HAUTEUR - 20);
+
+  texte('COMMENT JOUER ?', LARGEUR / 2, 30, 15, '#ffd530');
+
+  texte('Panpan, le policier lapin, doit rattraper les 4 loups évadés !', LARGEUR / 2, 48, 9, '#ffffff');
+  texte('Touche l’écran de la cellule qui clignote pour partir en poursuite.', LARGEUR / 2, 60, 9, '#ffffff');
+
+  texte('LES COMMANDES', 36, 80, 10, '#7bc850', false);
+  texte('Sur téléphone : ◀ ▶ bouger    ⬆ sauter    💥 coup de matraque', 44, 94, 9, '#ffffff', false);
+  texte('Sur ordinateur : flèches bouger    Espace sauter    X matraque', 44, 107, 9, '#ffffff', false);
+
+  texte('LES RÈGLES', 36, 127, 10, '#7bc850', false);
+  texte('🥕 Ramasse carottes, foin et salades : 20 bonus = +1 vie !', 44, 141, 9, '#ffffff', false);
+  texte('🦊 Ne touche pas les ennemis : assomme-les ou saute par-dessus.', 44, 154, 9, '#ffffff', false);
+  texte('🌉 Les ponts en bois s’effritent sous tes pattes : cours vite !', 44, 167, 9, '#ffffff', false);
+  texte('🕳 Évite les trous. Tu as 3 vies par poursuite.', 44, 180, 9, '#ffffff', false);
+  texte('🐺 Touche le loup au bout du parcours pour le menotter !', 44, 193, 9, '#ffffff', false);
+
+  texte('Directrice artistique : Emma  ·  Développeur : Claude', LARGEUR / 2, 218, 8, '#ffd530');
+
+  if (Math.floor(tempsEtat * 2) % 2 === 0) {
+    texte('Touche l’écran pour revenir', LARGEUR / 2, 240, 9, '#ffffff');
   }
 }
 
@@ -891,6 +938,9 @@ function dessinerVictoireFinale() {
     ctx.fillRect(Math.round(c.x), Math.round(c.y), c.taille, c.taille);
   }
 
+  texte('Directrice artistique : Emma  ·  Développeur : Claude',
+    LARGEUR / 2, 110, 8, '#ffffff');
+
   if (tempsEtat > 3) {
     texte('Touche l’écran pour revenir au titre', LARGEUR / 2, 250, 9, '#ffffff');
   }
@@ -917,17 +967,22 @@ canvas.addEventListener('pointerdown', (e) => {
   const pos = positionDansLeJeu(e);
 
   if (etat === 'titre') {
-    const surJouer = pos.x > LARGEUR / 2 - 60 && pos.x < LARGEUR / 2 + 60 &&
-                     pos.y > 185 && pos.y < 227;
+    const surJouer = pos.x > LARGEUR / 2 - 70 && pos.x < LARGEUR / 2 + 70 &&
+                     pos.y > 156 && pos.y < 200;
+    const surAide = pos.x > LARGEUR / 2 - 70 && pos.x < LARGEUR / 2 + 70 &&
+                    pos.y > 200 && pos.y < 234;
     if (surJouer) {
       sons.clic();
       arreterM4a();
       allerSurveillance();
+    } else if (surAide) {
+      sons.clic();
+      changerEtat('aide');
     } else {
       // Toucher ailleurs : on écoute la chanson du jeu !
       jouerM4a('rabbitMan');
       // Appui long en bas de l'écran : efface la sauvegarde
-      if (pos.y > 235 && save.faits.some(f => f)) {
+      if (pos.y > 255 && save.faits.some(f => f)) {
         appuiLongTimer = setTimeout(() => {
           save = { faits: [false, false, false, false], bonus: [0, 0, 0, 0] };
           sauvegarder();
@@ -935,6 +990,9 @@ canvas.addEventListener('pointerdown', (e) => {
         }, 1200);
       }
     }
+  } else if (etat === 'aide') {
+    sons.clic();
+    changerEtat('titre');
   } else if (etat === 'surveillance') {
     toucherSurveillance(pos.x, pos.y);
   } else if (etat === 'gameover' && tempsEtat > 1.5) {
